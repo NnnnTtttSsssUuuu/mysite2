@@ -2,34 +2,73 @@
 
 body {
   margin: 0;
-  padding: 2em 2em;
+  padding: 0;
+  font-family: "YuMincho", "游明朝", "Hiragino Mincho ProN", serif;
+  position: relative;
 }
 
-body, input, textarea {
-  font-family: "YuMincho", "游明朝",  "Hiragino Mincho ProN", serif;
+input,
+textarea {
+  font-family: "YuMincho", "游明朝", "Hiragino Mincho ProN", serif;
 }
 
 p {
-  margin: 0 0 .25em;
+  margin: 0 0.25em 0.25em 0.25em;
+  padding: 0.25em 2em 0.25em 2em;
 }
 
-h2{
+h1 {
+  margin: 0 0 0 0;
+  padding: 10px 1em 20px 1em;
+  line-height: 1em;
+  font-feature-settings: "palt" ;
+}
+
+h2 {
   border-bottom: 3px solid black;
+  margin: 0 20px 0;
 }
 
-h3{
-background: black;
-color: white;
-padding:1px 10px;
+h3 {
+  margin: 0 20px 0;
 }
 
-h4{
+h4 {
   border-bottom: 2px solid black;
+  padding: 0 20px 0;
+  margin: 0 20px 0;
 }
 
-rt{
+h5{
+  margin: 0 0.25em 0 0.25em;
+  padding: 0.5em 2em 0em 2em;
+  font-size: 120%;
+  font-weight: normal;
+  text-decoration:underline;
+
+}
+
+rt {
   color: #4af;
   font-size: 50%;
+}
+
+li {
+  padding: 0 1em;
+  list-style: none;
+}
+
+dt {
+  font-size: 140%;
+  border-bottom: 2px solid black;
+  margin: 0 1em;
+  padding: 1px 10px 0px 1.5em;
+}
+
+dd {
+  padding: 1px 6px 6px 2em;
+  line-height: 1.8;
+  margin: 0 1em;
 }
 
 #input {
@@ -37,24 +76,78 @@ rt{
   height: 6em;
   font-size: 100%;
   line-height: 1.5;
+  /* margin:0 0 0 2em; */
 }
 
-#output{
-  font-family:  "YuMincho", "游明朝", "Hiragino Mincho ProN", serif;
+.criterias{
+  width: 90%;
+  height: 3em;
+  font-size: 100%;
+  line-height: 1.5;
+}
+
+#output {
+  font-family: "YuMincho", "游明朝", "Hiragino Mincho ProN", serif;
+  width: 90%;
+  font-size: 100%;
+  line-height: 1.5;
+  padding: 0 20px 0;
+}
+
+#chuuki {
+  font-family: "YuMincho", "游明朝", "Hiragino Mincho ProN", serif;
+  width: 90%;
+  font-size: 100%;
+  line-height: 1.2;
+  padding: 0 20px 0;
+}
+
+#zoomback{
+position: absolute;
+top: 0;
+width: 100vw;
+height: 100vh;
+background-color: rgba(0,0,0,0.8);
+display: flex;
+justify-content: center;
+align-items: center;
+display: none;
+}
+
+#zooming{
   width: 80%;
-  font-size: 160%;
-  line-height: 2;
 }
 
-.kyocho{
-  color: red;
-  font-size: 120%;
+.zoom{
+  margin:5px 0 0 0;
 }
 
-.kakomi{
- border: 4px darkslategray dotted;
- margin:3px;
- padding:1% ;
+
+.pc-nav {
+  width: 100%;
+  height: 29px;
+  margin: -12px 0 0 0;
+  padding: 0px 10px 0 10px;
+  font-size: 110%;
+  background: black;
+  font-family: "YuMincho", "游明朝", "Hiragino Mincho ProN", serif;
+}
+
+.pc-nav ul {
+  display: flex;
+
+}
+
+.pc-nav ul li {
+  list-style: none;
+}
+
+.pc-nav ul li a {
+  display: block;
+  text-decoration: none;
+  margin: 0 10px 0 0;
+  padding: 2px 0 0 0;
+  color: white;
 }
 
 .kanji {
@@ -66,30 +159,162 @@ rt{
   background: transparent;
 }
 
-.kanji.jitai {
+.kanji.itaiji {
   color: red;
-}
-
-.kanji2 {
-  position: relative;
-  background: yellow;
-  font-size: 160%;
-}
-
-.kanji2.joyo {
-  background: transparent;
-  font-size: 160%;
-}
-
-.kanji2.jitai {
-  color: red;
-  font-size: 160%;
 }
 
 .kanji.shikaru {
   color: black;
 }
 
-.kanji.itaijiselect {
+.kyocho {
   color: red;
+  font-size: 120%;
+}
+
+.kakomi {
+  border: 4px darkslategray dotted;
+  margin: 3px 1em;
+  padding: 1%;
+}
+
+.big160 {
+  font-size: 160%;
+}
+
+.big240 {
+  font-size: 240%;
+}
+
+.small60{
+  font-size: 60%
+}
+
+.gray {
+  opacity: 0.7;
+}
+
+.accordion_title {
+  position: relative;
+  font-size: 140%;
+  cursor: pointer;
+  user-select: none;
+}
+
+.accordion_title:hover {
+  background-color: #c1c7c7be;
+}
+
+.accordion_title::before,
+.accordion_title::after {
+  content: '';
+  display: inline-block;
+  position: absolute;
+  top: 50%;
+  width: 15px;
+  height: 2px;
+  background-color: #333;
+}
+
+.accordion_title::before {
+  top: 48%;
+  left: 15px;
+  transform: rotate(0deg);
+  transition-duration: .3s;
+}
+
+.accordion_title::after {
+  top: 48%;
+  left: 15px;
+  transform: rotate(-90deg);
+  transition-duration: .3s;
+}
+
+.accordion_title.is-active::before {
+  transform: rotate(45deg);
+}
+
+.accordion_title.is-active::after {
+  transform: rotate(-45deg);
+}
+
+.accordion_content {
+  line-height: 0;
+  height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition-duration: .3s;
+}
+
+.accordion_content.is-open {
+  line-height: normal;
+  height: auto;
+  opacity: 1;
+  line-height: normal;
+}
+
+.sp-nav {
+  display: none;
+}
+
+.dangumi{
+  margin: 0 0.25em 0.25em 0.25em;
+  padding: 0.25em 2em 0.25em 2em;
+}
+
+.dangumi li{
+  padding: 0 0 0 0.25em;
+}
+
+.dangumi li ul{
+  padding: 0 1em 0 1em;
+}
+
+.caption{
+  font-size:13px;
+  font-weight: normal;
+  margin: -20px 0 0 0;
+  vertical-align: super;
+}
+
+.red{
+  color: red;
+}
+
+.qq:hover{
+  display: inline-block;
+  transform: rotate(360deg);
+  transition: all 1s;
+}
+
+.qqq:hover{
+  display: inline-block;
+  transform: rotate(-360deg);
+  transition: all 1s;
+}
+
+#qualityCenter{
+position: absolute;
+top: 0;
+width: 90vw;
+height: 100vh;
+background-color: rgba(255,255,255,0.8);
+font-size: 16px;
+justify-content: center;
+text-align: center;
+align-items: center;
+display: none;
+margin: 0 1em;
+}
+
+.akaami{
+  background:rgba(255, 192, 203, 0.678);
+}
+
+.kiami{
+  background:rgba(251, 251, 138, 0.959);
+}
+
+.aoami{
+  background:rgb(188, 233, 248);
 }

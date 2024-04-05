@@ -1,4 +1,7 @@
 <!DOCTYPE html>
+
+
+
 <html lang="ja">
 
 <head>
@@ -6,33 +9,67 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
 
-  <title>漢字チェッカー(仮)</title>
+  <title>表記チェッカー</title>
 
 </head>
 
 <body>
+  <header>
+    <!-- <nav class="pc-nav">
+      <ul>
+        <li><a class="gray" href="index.html">漢字Quickチェッカー</a></li>
+        <li><a href="about.html">使い方</a></li>
+        <li><a href="yougo.html">漢字校正用語集</a></li>
+      </ul>
+    </nav>
 
-  <h1>漢字チェッカー(仮)</h1>
+    <nav class="sp-nav">
+      <ul>
+        <li><a href="index.html">漢字Quickチェッカー</a></li>
+        <li><a href="about.html">使い方</a></li>
+        <li><a href="yougo.html">漢字校正用語集</a></li>
+        <li class="close"><span>閉じる</span></li>
+      </ul>
+    </nav>
 
-  <p>学年別教育漢字、常用漢字表外漢字と、標準的でない字体をチェックします。
-    <br>ご利用の前に<a href="about.html" target="_blank" rel="noopener noreferrer">こちら</a>をお読みください。
-    <br><font size="2">【小学館出版クォリティーセンター試用バージョン 2024/2/6版】</font><br>
-    <br>凡例：
-    <ruby>学<rt>1</rt></ruby><ruby>年<rt>1</rt></ruby><ruby>別<rt>4</rt></ruby><ruby>教<rt>2</rt></ruby><ruby>育<rt>3</rt></ruby><ruby>漢<rt>3</rt></ruby><ruby>字<rt>1</rt></ruby>
-    <small>（数字は学年）</small>
-    <span>　常用漢字　</span>
-    <span class="kanji">表外漢字</span>
-    <span class="kanji joyo jitai"><br>　　　標準的でない字体</span><span class="kanji joyo">[=標準的な字体]</span>
-    <span class="kanji joyo"><br>　　　JIS90フォントで字形が変わる字[▵</span><span class="kanji joyo jitai">標準的でない字体</span><span class="kanji joyo"></span>]
-   
+    <div id="hamburger">
+      <span></span>
+    </div> -->
+
+    <h1>表<span class="red qq">記</span>チェッカー<br></h1>
+
+
+  </header>
+
+  <p>最初に検索ワードを入力します。単語と単語の間は半角／全角スペースを入れてください
+
   </p>
 
-  <textarea id="input" placeholder="ここに文章を入力してください"></textarea>
+
+
+
+
+  <h3>要訂正ワード</h3>
+  <p><textarea class="criterias akaami" id="criteriaRed" placeholder="「要訂正」ワードを入力してください。赤アミで表示します">表す あり得 いな妻 いはん いんき うたたね えんりょ おくやみ おくれ おこす おちこむ おどろく おなか おぼえ おもな おもに お願い かくれ がんぐ か所 きおく きづく 気付く きょひ きり ぐう然 くりかえし けい帯 こう例 こおりつ こっけい ことな ことば こわれ さかさま さけて さけな さける じごく 時代おくれ じまん じゅうたい じゅう電 しょうかい しょうとつ しょ民 だいなし たおれ たたみ ためしに ためす だん丸 ちがう ちがっ ちょう つかいわけ つづけ てつ夜 でむかえ とくに とちゅう 友だち 友だち 捉える と方も なみだ ねこむ のせ の時 の中に の方 はげし はじめて ふくまな ふくみ ふくむ ふくめ ふっとう ふゆかい 振り動か へんな へんに ほか まちどおし まつ まほう マンガ みぞ ムダ もっとも もどる やとう ゆううつ ようす りょうかい れいぎ れんらく わりこむ を込めて 一緒 一切れ 何か 可愛い 感めい 簡単 嬉し 機げん 気分転かん 君 見こみ 見つけだす 言い換え 言えば 頃 思い浮かべ 私 時々 時代おくれ 次第 取引 修正前 状きょう 色々 触れ 振り上げ 振り払 全て 退くつ 大じょうぶ 大丈夫 誰 置き換え 丁寧 難し 二人 年れい 悩ます 疲れ 表す 普通 幅広 分かる 文化けん 僕 漫画 無駄 面白 優し 友達 憂うつ 誘う 様々 踊る 頼む 落ちつ 例えば 例えば 老きゅう化 惑わ</textarea></p>
+
+  <h3>要検討ワード</h3>
+  <p><textarea class="criterias kiami" id="criteriaYellow" placeholder="「要検討」ワードを入力してください。黄色アミで表示します"></textarea></p>
+
+  <h3>表記揃えワード</h3>
+  <p><textarea class="criterias aoami" id="criteriaBlue" placeholder="「この表記に揃える」ワードを入力してください。青アミで表示します"></textarea></p>
+
+<p>
+  <br><button id="clearCriteriaButton">検索ワードを消去する</button><br><br>
+
+  <textarea id="input" placeholder="調べたいテキストを入力してください"></textarea>
+
   <br>
-  
   <button id="checkButton">Check</button>
   <button id="clearButton">Clear Text</button>
 
+  </p>
+
+  <p id="chuuki"></p>
   <p id="output"></p>
 
   <script src="main.js"></script>
