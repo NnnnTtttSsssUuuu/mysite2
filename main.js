@@ -307,19 +307,27 @@
 
   fileInput.addEventListener('change', (e) => {
 
+
     const file = e.target.files[0];
     const reader = new FileReader();
     reader.onload = () => {
       fileContent.textContent = reader.result;
 
       newCriteria = fileContent.textContent;
-      console.log(newCriteria);
+      // console.log(newCriteria);
 
       const critNew = newCriteria.match(/:.*/g);
+
+      // console.log("ファイルの文字コード：",);
 
       let criteriaInputRed = document.querySelector('#criteriaRed');
       let criteriaInputBlue = document.querySelector('#criteriaBlue');
       let criteriaInputYellow = document.querySelector('#criteriaYellow');
+
+      criteriaInputRed.textContent ="";
+      criteriaInputBlue.textContent = "";
+      criteriaInputYellow.textContent = "";
+
 
       criteriaInputRed.textContent = critNew[0].slice(1);
       criteriaInputBlue.textContent = critNew[1].slice(1);
