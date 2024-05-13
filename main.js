@@ -39,8 +39,6 @@
     const redPlus = new Array(criteriaMax - redMax);
     const bluePlus = new Array(criteriaMax - blueMax);
 
-    // console.log("criteriaTextRed", criteriaTextRed, "criteriaTextBlue", criteriaTextBlue, "criteriaMax", criteriaMax, "redPlus", redPlus, "bluePlus", bluePlus);
-
     let criteriaTextRed2 = new Array(criteriaMax);
     let criteriaTextBlue2 = new Array(criteriaMax);
 
@@ -51,9 +49,6 @@
     if (criteriaTextBlue) {
       criteriaTextBlue2 = criteriaTextBlue.concat(bluePlus);
     }
-
-    // console.log("cretiriaMax", criteriaMax, "redMax", redMax, "blueMax", blueMax);
-    // console.log("検索ワード 赤＝", criteriaTextRed2, "青＝", criteriaTextBlue2, "黄＝", criteriaTextYellow);
 
     countRed = new Array(criteriaMax);
     countRed.fill(0);
@@ -124,16 +119,13 @@
     }  // ループ終わり
 
 
-    // console.log("outputText", outputText);
-    // console.log("countRed", countRed);
-
     //表を入れる
     //  const allList = document.getElementById("criteriaList")[0];
     const allTable = document.createElement("table");
     const alltbody = document.createElement("tbody");
-    const alltr = document.createElement("tr"); //tr=table row　表の行
-    const alltd5 = document.createElement("td"); //th=table haeder　表の見出し
-    const alltd1 = document.createElement("td"); //td=tabel data　表の内容
+    const alltr = document.createElement("tr"); 
+    const alltd5 = document.createElement("td"); 
+    const alltd1 = document.createElement("td"); 
     const alltd2 = document.createElement("td");
     const alltd3 = document.createElement("td");
     const alltd4 = document.createElement("td");
@@ -157,12 +149,9 @@
 
 
     //2行目以降を入れる
-    // if (criteriaInputRed && criteriaInputBlue) {
-
     for (let i = 0; i < criteriaMax; i++) {
 
       if (countRed.at(i) + countBlue.at(i) > 0) {
-
         const row = document.createElement("tr");
 
         //第1列
@@ -189,7 +178,6 @@
 
         //第5列
         cellText4.innerHTML = countBlue.at(i);
-
 
         row.appendChild(cellText4);
         alltbody.appendChild(row);
@@ -234,7 +222,6 @@
           const cellText2 = document.createElement("td");
           // const cellText3 = document.createElement("td");
 
-
           cell.textContent = i + 1;
           row.appendChild(cell);
 
@@ -252,11 +239,8 @@
           yellowList.appendChild(yellowTable);
 
         }
-        // console.log("row", i, row);
       }
     }
-    // console.log("allList2", allList);
-
   });
 
 
@@ -277,9 +261,18 @@
 
   // 検索ワードクリアボタン押下の処理
   document.querySelector('#clearCriteriaButton').addEventListener('click', () => {
-    document.getElementById('criteriaRed').value = '';
-    document.getElementById('criteriaYellow').value = '';
-    document.getElementById('criteriaBlue').value = '';
+    const fileContentList = document.querySelector('pre');
+    fileContentList.textContent = "";
+
+    const criteriaInputRed = document.getElementById('criteriaRed');
+    criteriaInputRed.value = "";
+
+    const criteriaInputBlue = document.getElementById('criteriaBlue');
+    criteriaInputBlue.value = "";
+
+    const criteriaInputYellow = document.getElementById('criteriaYellow');
+    criteriaInputYellow.value = "";
+    
   });
 
   //検索ワードの保存
@@ -287,15 +280,44 @@
     const criteriaInputRed = document.querySelector('#criteriaRed').value;
     const criteriaInputYellow = document.querySelector('#criteriaYellow').value;
     const criteriaInputBlue = document.querySelector('#criteriaBlue').value;
-
     const text = '●赤字:' + criteriaInputRed + '\n●青字:' + criteriaInputBlue + '\n●黄色字:' + criteriaInputYellow;
     const blob = new Blob([text], { type: "text/plain" });
+
+    // const fileName = prompt("ファイル名を入力してください","表記チェッカー検索ワード.txt");
+    //  if(fileName){
+    //   const a = document.createElement("a");
+    //   a.href = URL.createObjectURL(blob);
+    //   a.download = fileName;
+    //   document.body.appendChild(a);
+    //   a.click();
+    //   document.body.removeChild(a);
+    //   URL.revokeObjectURL(a.href);
+    //  }
+
+
+    //ファイル選択ダイアログを表示
+    // const fileInput = document.createElement('input');
+    // fileInput.type = 'file';
+    // fileInput.style.display = 'none';
+    // fileInput.accept = '.txt';
+
+    // fileInput.addEventListener('change', (event) => {
+    //   const fileName = event.target.files[0].name;
+    //   const a = document.createElement("a");
+    //   a.href = URL.createObjectURL(blob);
+    //   a.download = fileName;
+
+    //   document.body.appendChild(a);
+    //   a.click();
+    //   document.body.removeChild(a);
+    //   URL.revokeObjectURL(a.href);
+    // })
+    // fileInput.click();
+
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
     a.download = "表記チェッカー検索ワード.txt";
-
-    
     a.click();
     URL.revokeObjectURL(url);
   });
@@ -306,40 +328,35 @@
   let newCriteria = "";
 
   fileInput.addEventListener('change', (e) => {
-
-
     const file = e.target.files[0];
     const reader = new FileReader();
-    reader.onload = () => {
-      fileContent.textContent = reader.result;
 
-      newCriteria = fileContent.textContent;
-      // console.log(newCriteria);
+    if (file.type === "text/plain") {
+      if (file.size < 30000) {
+        reader.onload = () => {
+          fileContent.textContent = reader.result;
+          newCriteria = fileContent.textContent;
+          yomikomi(newCriteria);
+        };
+        reader.readAsText(file);
+      } else { alert("ファイルが大きすぎます。30KB以下に抑えてください"); }
+    } else { alert("テキストファイルではありません"); }
+  }, false)
 
-      const critNew = newCriteria.match(/:.*/g);
+  //検索ワード読み込み関数
+  function yomikomi(newCriteria){
+    const critNew = newCriteria.match(/:.*/g);
+    let criteriaInputRed = document.querySelector('#criteriaRed');
+    let criteriaInputBlue = document.querySelector('#criteriaBlue');
+    let criteriaInputYellow = document.querySelector('#criteriaYellow');
 
-      // console.log("ファイルの文字コード：",);
+    criteriaInputRed.value = "";
+    criteriaInputBlue.value = "";
+    criteriaInputYellow.value = "";
 
-      let criteriaInputRed = document.querySelector('#criteriaRed');
-      let criteriaInputBlue = document.querySelector('#criteriaBlue');
-      let criteriaInputYellow = document.querySelector('#criteriaYellow');
-
-      criteriaInputRed.textContent ="";
-      criteriaInputBlue.textContent = "";
-      criteriaInputYellow.textContent = "";
-
-
-      criteriaInputRed.textContent = critNew[0].slice(1);
-      criteriaInputBlue.textContent = critNew[1].slice(1);
-      criteriaInputYellow.textContent = critNew[2].slice(1);
-
-      // alert("正しく読み込まれているか、確認してください");
-
-    };
-    reader.readAsText(file);
-
-
-  })
-
+    criteriaInputRed.value = critNew[0].slice(1);
+    criteriaInputBlue.value = critNew[1].slice(1);
+    criteriaInputYellow.value = critNew[2].slice(1);
+  }
 
 }
