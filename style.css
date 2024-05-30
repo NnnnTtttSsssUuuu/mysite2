@@ -8,13 +8,22 @@ body {
 }
 
 section{
-  margin: 1em 0.5em 0.25em 0.5em;
-  padding: 1.25em 2em 0.25em 2em;
+  /* margin: 1em 1em 0.5em 1em; 
+  padding: 0.25em 2em 0.25em 2em; */
+
+  /* margin: 0 0.25em 0.25em 0.25em;
+   padding: 0.25em 2em 0.25em 2em;
+   padding: 0 0 0 0; */
+
+  margin: 5px 30px  10px 30px;
+  padding: 5px 10px 10px 10px;
+
   border: 1px solid black;
 }
 
 .kensakuWord{
-  margin: -33px 0 1em -10px;
+  /* margin: -33px 0 1em -10px; */
+  margin: 0 0 0 0;
   background: white;
   display: inline;
   position: absolute;
@@ -23,6 +32,11 @@ section{
 input,
 textarea {
   font-family: "YuMincho", "游明朝", "Hiragino Mincho ProN", serif;
+  /* margin: 0 0.25em 0.25em 0.25em;
+  padding: 0.25em 2em 0.25em 2em; */
+
+  margin: 5px 30px  10px 30px;
+  padding: 5px 10px 10px 10px;
 }
 
 p {
@@ -38,8 +52,9 @@ h1 {
 }
 
 h2 {
-  border-bottom: 3px solid black;
-  margin: 0 20px 0;
+  /* border-bottom: 3px solid black; */
+  /* margin: 0 20px 0; */
+  margin: 0 0 0 0;
 }
 
 h3 {
@@ -102,6 +117,10 @@ table{
   background:rgba(251, 251, 138, 0.959);
 }
 
+#criteriaYellowList td:nth-of-type(4){
+  background:bisque;
+}
+
 table th, table td{
   border: solid 1px;
   margin: 2em;
@@ -138,12 +157,52 @@ pre{
   /* margin:0 0 0 2em; */
 }
 
+.titleList{
+  /* display: none; */
+  font-size: 16px;
+  font-family:"游ゴシック", sans-serif;
+  border: solid;
+  border-width: 1px;
+  padding:1px 5px 1px 5px;
+}
+
+.smallList{
+  /* display: none; */
+  font-size: 12px;
+  font-family:"游ゴシック", sans-serif;
+  font-weight: bold;
+}
+
 .criterias{
   width: 90%;
   height: 3em;
   font-size: 100%;
   line-height: 1.5;
 }
+
+.note{
+  display: none; 
+  /* width: 10em; */
+  font-size: 12px;
+  font-family:"游ゴシック", sans-serif;
+  position: absolute; 
+  background-color: lavender;
+   /* border: 1px solid #ccc;  */
+   padding: 5px; 
+   z-index: 1; 
+}
+.note-container { 
+  position: relative; 
+  /* display: inline-block; */
+  display: inline;
+ } 
+
+ .note-container:hover
+ .note {
+   /* display: inline-block;  */
+   display: inline;
+   width: 10em;
+  } 
 
 #output {
   font-family: "YuMincho", "游明朝", "Hiragino Mincho ProN", serif;
@@ -256,7 +315,7 @@ display: none;
 
 .accordion_title {
   position: relative;
-  font-size: 140%;
+  /* font-size: 140%; */
   cursor: pointer;
   user-select: none;
 }
@@ -273,7 +332,7 @@ display: none;
   top: 50%;
   width: 15px;
   height: 2px;
-  background-color: #333;
+  background-color: red;
 }
 
 .accordion_title::before {
@@ -341,6 +400,11 @@ display: none;
   color: red;
 }
 
+.bold{
+   font-weight: bold;
+   font-family: sans-serif;
+}
+
 .qq:hover{
   display: inline-block;
   transform: rotate(360deg);
@@ -377,4 +441,8 @@ margin: 0 1em;
 
 .aoami{
   background:rgb(188, 233, 248);
+}
+
+.orangeami{
+  background:bisque;
 }
