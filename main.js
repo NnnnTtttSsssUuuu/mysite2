@@ -387,25 +387,36 @@
   const criteriaInputFileName = document.getElementById('criteriaInputFileName');
   let newCriteria = "";
 
+  document.getElementById('toFileInput').addEventListener("click", () => {
+    document.getElementById("fileInput").click();
+  });
+
   fileInput.addEventListener('change', (e) => {
     const file = e.target.files[0];
     const reader = new FileReader();
     const criteriaInputFile = fileInput.files;
-    // console.log("ファイル名1：",criteriaInputFile[0].name);
-    // const smallList = document.querySelector('.smallList');
-    // smallList.style.display = 'inline';
 
     const titleList = document.querySelector('.titleList');
     titleList.style.display = 'inline';
 
     criteriaInputFileName.textContent = criteriaInputFile[0].name;
 
+    // const countReturn = (file.match(/ \n/g) || []).length;
+    // console.log(countReturn);
+    // console.log("file",file);
+
     if (file.type === "text/plain") {
       if (file.size < 50000) {
         reader.onload = () => {
           fileContent.textContent = reader.result;
           newCriteria = fileContent.textContent;
+          const countColon = (newCriteria.match(/:/g) || []).length;
+          const countReturn = (newCriteria.match(/\n/g) || []).length;
+
           yomikomi(newCriteria);
+
+          if ((countColon < 5 || countColon > 0) && (countReturn <= countColon)) {
+          } else { alert("ファイルの形式が規定通りではありません。正しく読み込まれているか、ご確認ください"); }
         };
         reader.readAsText(file);
       } else { alert("ファイルが大きすぎます。50KB以下に抑えてください"); }
@@ -440,19 +451,19 @@
   }
 
 
-//アコーディオンメニュー
-document.addEventListener("DOMContentLoaded", () => {
-  const title = document.querySelectorAll('.js-accordion-title');
+  //アコーディオンメニュー
+  document.addEventListener("DOMContentLoaded", () => {
+    const title = document.querySelectorAll('.js-accordion-title');
 
-  for (let i = 0; i < title.length; i++) {
-    let titleEach = title[i];
-    let content = titleEach.nextElementSibling;
-    titleEach.addEventListener('click', () => {
-      titleEach.classList.toggle('is-active');
-      content.classList.toggle('is-open');
-    });
-  }
-});
+    for (let i = 0; i < title.length; i++) {
+      let titleEach = title[i];
+      let content = titleEach.nextElementSibling;
+      titleEach.addEventListener('click', () => {
+        titleEach.classList.toggle('is-active');
+        content.classList.toggle('is-open');
+      });
+    }
+  });
 
 
 }
