@@ -293,6 +293,18 @@
   });
 
 
+
+  //検索ワードに変更があった際の対応
+  document.querySelectorAll('.criterias').forEach(function (criterias) {
+    criterias.addEventListener('change', () => {
+      const criteriaInputFileName = document.getElementById('criteriaInputFileName');
+      if (!criteriaInputFileName.textContent.match(/\+変更$/)) {
+        criteriaInputFileName.insertAdjacentHTML('beforeend', "+変更");
+      }
+    });
+  });
+
+
   // テキストクリアボタン押下の処理
   document.querySelector('#clearButton').addEventListener('click', () => {
     const outputText = document.querySelector('#output');
@@ -328,8 +340,12 @@
     // const smallList = document.querySelector('.smallList');
     // smallList.style.display = 'none';
 
+    const criteriaInputFileName = document.getElementById('criteriaInputFileName');
+    criteriaInputFileName.textContent = "";
+
     const titleList = document.querySelector('.titleList');
     titleList.style.display = 'none';
+
   });
 
 

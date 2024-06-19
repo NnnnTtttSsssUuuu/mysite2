@@ -1,8 +1,11 @@
 @charset "utf-8";
 
-body {
+*{
   margin: 0;
   padding: 0;
+}
+
+body {
   font-family: "YuMincho", "游明朝", "Hiragino Mincho ProN", serif;
   position: relative;
 }
@@ -294,12 +297,8 @@ display: none;
 
 .accordion_title {
   position: relative;
-  /* position: absolute; */
-  /* font-size: 140%; */
   cursor: pointer;
   user-select: none;
-  /* background: yellow; */
-
   padding: 0 0 0 30px;
   min-height: 1em;
 }
@@ -331,7 +330,6 @@ line-height: 0.5;
 }
 
 .accordion_title::before {
-  /* top: 48%; */
   top: 16px;
   left: 6px;
   transform: rotate(0deg);
@@ -339,7 +337,6 @@ line-height: 0.5;
 }
 
 .accordion_title::after {
-  /* top: 48%; */
   top: 16px;
   left: 6px;
   transform: rotate(-90deg);
