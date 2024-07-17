@@ -2,13 +2,34 @@
 
 {
 
+  //立ち上げ時の処理
+  document.addEventListener("DOMContentLoaded", displayTateList());
 
-  // window.onload = function () {
-  // }
+  // document.addEventListener("DOMContentLoaded", function () {
+  //   fetch('checkword.csv')
+  //     .then(function (response) {
+  //       return response.text();
+  //     })
+  //     .then(function (data) {
+  //       document.querySelector('.titleList').style.display = 'inline';
+  //       document.getElementById('fileContent').textContent = data;
+  //       var newCriteria = tateyoko(data);
+  //       yomikomi(newCriteria);
+
+  //       var tateList = document.getElementById("tateList");
+  //       tateList.textContent = newCriteria;
+
+  //       displayTateList();
+  //     })
+  //     .catch(function (error) {
+  //       console.error('Error fetching the CSV file:', error);
+  //     });
+  // });
 
 
   // チェックボタン押下の処理
   document.querySelector('#checkButton').addEventListener('click', () => {
+
     const inputText = document.querySelector('#input').value;
     const outputText = document.querySelector('#output');
     const chuukiText = document.querySelector('#chuuki');
@@ -26,57 +47,61 @@
     yellowList.textContent = "";
 
     //検索ワードの取得
-    const criteriaTextRed = criteriaInputRed.match(/\S+/g);
-    const criteriaTextYellow = criteriaInputYellow.match(/\S+/g);
-    const criteriaTextBlue = criteriaInputBlue.match(/\S+/g);
-    const criteriaTextOrange = criteriaInputOrange.match(/\S+/g);
+    let criteriaTextRed = criteriaInputRed.match(/[^,\s]+/g);
+    let criteriaTextYellow = criteriaInputYellow.match(/[^,\s]+/g);
+    let criteriaTextBlue = criteriaInputBlue.match(/[^,\s]+/g);
+    let criteriaTextOrange = criteriaInputOrange.match(/[^,\s]+/g);
 
-    let redMax = 0;
-    let blueMax = 0;
-    let yellowMax = 0;
-    let orangeMax = 0;
+    let redLength = 0;
+    let blueLength = 0;
+    let yellowLength = 0;
+    let orangeLength = 0;
 
 
     if (criteriaTextRed) {
-      redMax = criteriaTextRed.length;
+      redLength = criteriaTextRed.length;
+    } else {
+      criteriaTextRed = [];
     }
 
     if (criteriaTextBlue) {
-      blueMax = criteriaTextBlue.length;
+      blueLength = criteriaTextBlue.length;
+    } else {
+      criteriaTextBlue = [];
     }
 
     if (criteriaTextYellow) {
-      yellowMax = criteriaTextYellow.length;
+      yellowLength = criteriaTextYellow.length;
+    } else {
+      criteriaTextYellow = [];
     }
 
     if (criteriaTextOrange) {
-      orangeMax = criteriaTextOrange.length;
+      orangeLength = criteriaTextOrange.length;
+    } else {
+      criteriaTextOrange = [];
     }
 
-    const criteriaMax = Math.max(redMax, blueMax);
-    const redPlus = new Array(criteriaMax - redMax);
-    const bluePlus = new Array(criteriaMax - blueMax);
-    const orangePlus = new Array(yellowMax - orangeMax);
+    const maxLength = Math.max(redLength, blueLength);
 
-    let criteriaTextRed2 = new Array(criteriaMax);
-    let criteriaTextBlue2 = new Array(criteriaMax);
-    let criteriaTextOrange2 = new Array(yellowMax);
-
-    if (criteriaTextRed) {
-      criteriaTextRed2 = criteriaTextRed.concat(redPlus);
+    while (redLength < maxLength) {
+      criteriaTextRed.push("");
+      redLength = redLength + 1;
     }
 
-    if (criteriaTextBlue) {
-      criteriaTextBlue2 = criteriaTextBlue.concat(bluePlus);
+    while (blueLength < maxLength) {
+      criteriaTextBlue.push("");
+      blueLength = blueLength + 1;
     }
 
-    if (criteriaTextOrange) {
-      criteriaTextOrange2 = criteriaTextOrange.concat(orangePlus);
+    while (orangeLength < yellowLength) {
+      criteriaTextOrange.push("");
+      orangeLength = orangeLength + 1;
     }
 
-    countRed = new Array(criteriaMax);
+    countRed = new Array(maxLength);
     countRed.fill(0);
-    countBlue = new Array(criteriaMax);
+    countBlue = new Array(maxLength);
     countBlue.fill(0);
 
     if (criteriaTextYellow) {
@@ -85,8 +110,8 @@
     }
 
     //テキストとの照合
-    for (let i = 0; i < inputText.length; i++) {
-      let c = inputText.substring(i, i + 1);
+    for (let iplus = 0; iplus < inputText.length; iplus++) {
+      let c = inputText.substring(iplus, iplus + 1);
       let klass = [];
       let checked = "";
       let chuki = "";
@@ -100,43 +125,44 @@
       //色付け
       if (criteriaTextRed) {
         criteriaTextRed.forEach((value, index) => {
-          if (inputText.startsWith(value, i) && checked === "") {
+          if (inputText.startsWith(value, iplus) && checked === "" && value.length > 0) {
             c = value;
-            i = i + value.length - 1;
+            iplus = iplus + value.length - 1;
             klass.push("akaami note-container");
             checked = "check";
             let checkit = countRed.at(index);
             countRed.fill(checkit + 1, index, index + 1);
-            chuki = "→" + criteriaTextBlue2[index];
+            chuki = "▶︎" + criteriaTextBlue[index];
           }
         });
       }
 
+
       if (criteriaTextBlue) {
         criteriaTextBlue.forEach((value, index) => {
-          if (inputText.startsWith(value, i) && checked === "") {
+          if (inputText.startsWith(value, iplus) && checked === "" && value.length > 0) {
             c = value;
-            i = i + value.length - 1;
+            iplus = iplus + value.length - 1;
             klass.push("aoami note-container");
             checked = "check";
             let checkit = countBlue.at(index);
             countBlue.fill(checkit + 1, index, index + 1);
-            chuki = "←" + criteriaTextRed2[index];
+            chuki = "◀︎" + criteriaTextRed[index];
           }
         });
       }
 
       if (criteriaTextYellow) {
         criteriaTextYellow.forEach((value, index) => {
-          if (inputText.startsWith(value, i) && checked === "") {
+          if (inputText.startsWith(value, iplus) && checked === "" && value.length > 0) {
             c = value;
-            i = i + value.length - 1;
+            iplus = iplus + value.length - 1;
             klass.push("kiami note-container");
             checked = "check";
             let checkit = countYellow.at(index);
             countYellow.fill(checkit + 1, index, index + 1);
-            if (criteriaTextOrange2[index]) {
-              chuki = criteriaTextOrange2[index];
+            if (criteriaTextOrange[index]) {
+              chuki = criteriaTextOrange[index];
             } else {
               chuki = "";
             }
@@ -148,21 +174,16 @@
       let spanChuElement = document.createElement("span");
       spanElement.textContent = c;
       spanElement.className = klass;
-      // spanChuElement.innerHTML = "<span class = \"note\">注釈</span>";
-      // spanChuElement.textContent = "注釈";
       spanChuElement.textContent = chuki;
       spanChuElement.className = "note";
 
       spanElement.appendChild(spanChuElement);
       outputText.appendChild(spanElement);
-      // outputText.appendChild(spanElement);
-      // outputText.appendChild(spanChuElement);
     }  // ループ終わり
 
     // console.log("outputText", outputText);
 
     //表を入れる
-    //  const allList = document.getElementById("criteriaList")[0];
     const allTable = document.createElement("table");
     const alltbody = document.createElement("tbody");
     const alltr = document.createElement("tr");
@@ -178,7 +199,6 @@
     alltd4.textContent = "表記揃えワード";
     alltd5.textContent = "出現数";
 
-
     alltr.appendChild(alltd1);
     alltr.appendChild(alltd2);
     alltr.appendChild(alltd3);
@@ -189,11 +209,11 @@
     allTable.appendChild(alltbody);
     allList.appendChild(allTable);
 
-
     //2行目以降を入れる
-    for (let i = 0; i < criteriaMax; i++) {
+    for (let i = 0; i < maxLength; i++) {
 
-      if (countRed.at(i) + countBlue.at(i) > 0) {
+      // if (countRed.at(i) + countBlue.at(i) > 0) {
+      if (countRed.at(i) > 0) {
         const row = document.createElement("tr");
 
         //第1列
@@ -207,7 +227,7 @@
         row.appendChild(cell);
 
         //第2列
-        cellText1.innerHTML = criteriaTextRed2.at(i);
+        cellText1.innerHTML = criteriaTextRed.at(i);
         row.appendChild(cellText1);
 
         //第3列
@@ -215,7 +235,7 @@
         row.appendChild(cellText2);
 
         //第4列
-        cellText3.innerHTML = criteriaTextBlue2.at(i);
+        cellText3.innerHTML = criteriaTextBlue.at(i);
         row.appendChild(cellText3);
 
         //第5列
@@ -232,8 +252,8 @@
     //黄色ワードの表を入れる
     const yellowTable = document.createElement("table");
     const yellowtbody = document.createElement("tbody");
-    const yellowtr = document.createElement("tr"); //tr=table row　表の行
-    const yellowtd1 = document.createElement("td"); //td=tabel data　表の内容
+    const yellowtr = document.createElement("tr");
+    const yellowtd1 = document.createElement("td");
     const yellowtd2 = document.createElement("td");
     const yellowtd3 = document.createElement("td");
     const yellowtd4 = document.createElement("td");
@@ -258,7 +278,6 @@
       for (let i = 0; i < criteriaTextYellow.length; i++) {
 
         if (countYellow.at(i) > 0) {
-
           const row = document.createElement("tr");
 
           //第1列
@@ -286,7 +305,6 @@
           yellowtbody.appendChild(row);
           yellowTable.appendChild(yellowtbody);
           yellowList.appendChild(yellowTable);
-
         }
       }
     }
@@ -337,8 +355,8 @@
     const criteriaInputOrange = document.getElementById('criteriaOrange');
     criteriaInputOrange.value = "";
 
-    // const smallList = document.querySelector('.smallList');
-    // smallList.style.display = 'none';
+    const tateList = document.getElementById("tateList");
+    tateList.textContent = "";
 
     const criteriaInputFileName = document.getElementById('criteriaInputFileName');
     criteriaInputFileName.textContent = "";
@@ -355,47 +373,21 @@
     const criteriaInputYellow = document.querySelector('#criteriaYellow').value;
     const criteriaInputBlue = document.querySelector('#criteriaBlue').value;
     const criteriaInputOrange = document.querySelector('#criteriaOrange').value;
-    const text = '●赤字:' + criteriaInputRed + '\n●青字:' + criteriaInputBlue + '\n●黄色字:' + criteriaInputYellow + '\n●オレンジ字:' + criteriaInputOrange;
-    const blob = new Blob([text], { type: "text/plain" });
 
-    // const fileName = prompt("ファイル名を入力してください","表記チェッカー検索ワード.txt");
-    //  if(fileName){
-    //   const a = document.createElement("a");
-    //   a.href = URL.createObjectURL(blob);
-    //   a.download = fileName;
-    //   document.body.appendChild(a);
-    //   a.click();
-    //   document.body.removeChild(a);
-    //   URL.revokeObjectURL(a.href);
-    //  }
+    let criteriaSave = '●修正検討ワード:,' + criteriaInputRed.replace(/^,+/, "") + '\n●表記揃えワード:,' + criteriaInputBlue.replace(/^,+/, "") + '\n●要検討ワード:,' + criteriaInputYellow.replace(/^,+/, "") + '\n●要検討ワードの注記:,' + criteriaInputOrange.replace(/^,+/, "");
 
-
-    //ファイル選択ダイアログを表示
-    // const fileInput = document.createElement('input');
-    // fileInput.type = 'file';
-    // fileInput.style.display = 'none';
-    // fileInput.accept = '.txt';
-
-    // fileInput.addEventListener('change', (event) => {
-    //   const fileName = event.target.files[0].name;
-    //   const a = document.createElement("a");
-    //   a.href = URL.createObjectURL(blob);
-    //   a.download = fileName;
-
-    //   document.body.appendChild(a);
-    //   a.click();
-    //   document.body.removeChild(a);
-    //   URL.revokeObjectURL(a.href);
-    // })
-    // fileInput.click();
+    criteriaSave = tateyoko(criteriaSave);
+    const bom = new Uint8Array([0xef, 0xbb, 0xbf]) //ここでUTF-8を指定
+    const blob = new Blob([bom, criteriaSave], { type: "text/csv" });
 
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = "表記チェッカー検索ワード.txt";
+    a.download = "表記チェッカー検索ワード.csv";
     a.click();
     URL.revokeObjectURL(url);
   });
+
 
   //検索ワードの読み込み
   const fileInput = document.getElementById('fileInput');
@@ -417,60 +409,187 @@
 
     criteriaInputFileName.textContent = criteriaInputFile[0].name;
 
-    // const countReturn = (file.match(/ \n/g) || []).length;
-    // console.log(countReturn);
-    // console.log("file",file);
-
-    if (file.type === "text/plain") {
-      if (file.size < 50000) {
+    if (file.type === "text/plain" || file.type === "text/csv") {
+      if (file.size < 100000) {
         reader.onload = () => {
           fileContent.textContent = reader.result;
           newCriteria = fileContent.textContent;
-          const countColon = (newCriteria.match(/:/g) || []).length;
-          const countReturn = (newCriteria.match(/\n/g) || []).length;
+          newCriteria = tateyoko(newCriteria);
 
           yomikomi(newCriteria);
 
-          if ((countColon < 5 || countColon > 0) && (countReturn <= countColon)) {
-          } else { alert("ファイルの形式が規定通りではありません。正しく読み込まれているか、ご確認ください"); }
+          const tateList = document.getElementById("tateList");
+          tateList.textContent = "";
+          displayTateList();
         };
         reader.readAsText(file);
-      } else { alert("ファイルが大きすぎます。50KB以下に抑えてください"); }
-    } else { alert("テキストファイルではありません"); }
+      } else { alert("ファイルが大きすぎます。100KB以下に抑えてください"); }
+    } else { alert("CSVファイルではありません"); }
   }, false)
+
+
+  //縦横変換関数
+  function tateyoko(inputCsv) {
+    const rows = inputCsv.trim().split('\n').map(row => row.split(',').map(cell => cell.trim()));
+    const maxLength = Math.max(...rows.map(row => row.length));
+    const normalizedRows = rows.map(row => {
+      while (row.length < maxLength) {
+        row.push('');
+      }
+      return row;
+    });
+    const transposedRows = normalizedRows[0].map((_, colIndex) => normalizedRows.map(row => row[colIndex]));
+    return transposedRows.map(row => row.join(',')).join('\n').trim();
+  }
 
   //検索ワード読み込み関数
   function yomikomi(newCriteria) {
-    const critNew = newCriteria.match(/:.*/g);
+    const critNew = newCriteria.match(/,.*/g);
     let criteriaInputRed = document.querySelector('#criteriaRed');
     let criteriaInputBlue = document.querySelector('#criteriaBlue');
     let criteriaInputYellow = document.querySelector('#criteriaYellow');
     let criteriaInputOrange = document.querySelector('#criteriaOrange');
 
-
     if (critNew[0]) {
-      criteriaInputRed.value = critNew[0].slice(1);
+      const critRed = critNew[0].slice(1);
+      criteriaInputRed.value = critRed.replace(/^,+/, "");
     } else { criteriaInputRed.value = ""; }
 
     if (critNew[1]) {
-      criteriaInputBlue.value = critNew[1].slice(1);
+      const critBlue = critNew[1].slice(1);
+      criteriaInputBlue.value = critBlue.replace(/^,+/, "");
     } else { criteriaInputBlue.value = ""; }
 
     if (critNew[2]) {
-      criteriaInputYellow.value = critNew[2].slice(1);
+      const critYellow = critNew[2].slice(1);
+      criteriaInputYellow.value = critYellow.replace(/^,+/, "");
     } else { criteriaInputYellow.value = ""; }
 
     if (critNew[3]) {
-      criteriaInputOrange.value = critNew[3].slice(1);
+      const critOrange = critNew[3].slice(1);
+      criteriaInputOrange.value = critOrange.replace(/^,+/, "");
     } else { criteriaInputOrange.value = ""; }
-
   }
 
+
+  //縦型リストの作成
+  function displayTateList() {
+    const tateList = document.getElementById("tateList");
+    const tateTable = document.createElement("table");
+    const tatethead = document.createElement("thead");
+    const tatetbody = document.createElement("tbody");
+    const tatetd1 = document.createElement("td");
+    const tatetd2 = document.createElement("td");
+    const tatetd3 = document.createElement("td");
+    const tatetd4 = document.createElement("td");
+
+    tatetd1.textContent = "修正検討ワード";
+    tatetd2.textContent = "表記揃えワード";
+    tatetd3.textContent = "要検討ワード";
+    tatetd4.textContent = "要検討ワードの注記";
+
+    tatethead.appendChild(tatetd1);
+    tatethead.appendChild(tatetd2);
+    tatethead.appendChild(tatetd3);
+    tatethead.appendChild(tatetd4);
+
+    tateTable.appendChild(tatethead);
+    tateList.appendChild(tateTable);
+
+    //2行目以降を入れる
+    const criteriaInputRed = document.querySelector('#criteriaRed').value;
+    const criteriaInputBlue = document.querySelector('#criteriaBlue').value;
+    const criteriaInputYellow = document.querySelector('#criteriaYellow').value;
+    const criteriaInputOrange = document.querySelector('#criteriaOrange').value;
+
+    let criteriaTextRed = criteriaInputRed.match(/[^,\s]+/g);
+    let criteriaTextBlue = criteriaInputBlue.match(/[^,\s]+/g);
+    let criteriaTextYellow = criteriaInputYellow.match(/[^,\s]+/g);
+    let criteriaTextOrange = criteriaInputOrange.match(/[^,\s]+/g);
+
+    let redLength = 0;
+    let blueLength = 0;
+    let yellowLength = 0;
+    let orangeLength = 0;
+
+    if (criteriaTextRed) {
+      redLength = criteriaTextRed.length;
+    } else {
+      criteriaTextRed = [];
+    }
+
+    if (criteriaTextBlue) {
+      blueLength = criteriaTextBlue.length;
+    } else {
+      criteriaTextBlue = [];
+    }
+
+    if (criteriaTextYellow) {
+      yellowLength = criteriaTextYellow.length;
+    } else {
+      criteriaTextYellow = [];
+    }
+
+    if (criteriaTextOrange) {
+      orangeLength = criteriaTextOrange.length;
+    } else {
+      criteriaTextOrange = [];
+    }
+
+    const maxLength = Math.max(redLength, blueLength, yellowLength, orangeLength);
+
+    while (redLength < maxLength) {
+      criteriaTextRed.push("");
+      redLength = redLength + 1;
+    }
+
+    while (blueLength < maxLength) {
+      criteriaTextBlue.push("");
+      blueLength = blueLength + 1;
+    }
+
+    while (yellowLength < maxLength) {
+      criteriaTextYellow.push("");
+      yellowLength = yellowLength + 1;
+    }
+
+    while (orangeLength < maxLength) {
+      criteriaTextOrange.push("");
+      orangeLength = orangeLength + 1;
+    }
+
+    for (let i = 0; i < maxLength; i++) {
+      const row = document.createElement("tr");
+      const cellText1 = document.createElement("td");
+      const cellText2 = document.createElement("td");
+      const cellText3 = document.createElement("td");
+      const cellText4 = document.createElement("td");
+
+      //第1列
+      cellText1.innerHTML = criteriaTextRed.at(i);
+      row.appendChild(cellText1);
+
+      //第2列
+      cellText2.innerHTML = criteriaTextBlue.at(i);
+      row.appendChild(cellText2);
+
+      //第3列
+      cellText3.innerHTML = criteriaTextYellow.at(i);
+      row.appendChild(cellText3);
+
+      //第4列
+      cellText4.innerHTML = criteriaTextOrange.at(i);
+      row.appendChild(cellText4);
+
+      tatetbody.appendChild(row);
+      tateTable.appendChild(tatetbody);
+      tateList.appendChild(tateTable);
+    }
+  }
 
   //アコーディオンメニュー
   document.addEventListener("DOMContentLoaded", () => {
     const title = document.querySelectorAll('.js-accordion-title');
-
     for (let i = 0; i < title.length; i++) {
       let titleEach = title[i];
       let content = titleEach.nextElementSibling;
@@ -481,5 +600,15 @@
     }
   });
 
+  //スマホ操作時のナビゲーション
+  document.querySelector('#hamburger').addEventListener('click', () => {
+    const nav = document.querySelector('.sp-nav');
+    nav.classList.toggle('toggle');
+  });
+
+  document.querySelector('.close').addEventListener('click', () => {
+    const nav = document.querySelector('.sp-nav');
+    nav.classList.toggle('toggle');
+  });
 
 }
